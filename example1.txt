@@ -1,0 +1,5 @@
+LET a = 1;
+LET b = 2;
+let var_c = a;
+PRINT(var_c);
+print(b);

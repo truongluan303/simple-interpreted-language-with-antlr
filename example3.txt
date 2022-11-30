@@ -1,0 +1,2 @@
+LET x = 'this is a string with number 123';
+print(x);

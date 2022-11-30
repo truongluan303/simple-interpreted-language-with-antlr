@@ -150,3 +150,8 @@ cython_debug/
 *.interp
 *.class
 .antlr
+
+
+# general types of files that should not be committed
+*.zip
+*.exe

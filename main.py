@@ -1,21 +1,26 @@
+import sys
+
 from antlr4 import *
 
-from ExprLexer import ExprLexer
-from ExprParser import ExprParser
-from MyExprVisitor import MyExprVisitor
+from OurLanguageLexer import OurLanguageLexer
+from OurLanguageParser import OurLanguageParser
+from OurLanguageVisitor import OurLanguageVisitor
 
 
 def main():
-    input = InputStream("1 + 12 * (123 + 1234) - 12345 / 123456")
+    visitor = OurLanguageVisitor()
 
-    lexer = ExprLexer(input)
+    if len(sys.argv) > 1:
+        input_stream = FileStream(sys.argv[1])
+    else:
+        input_stream = InputStream(sys.stdin.readline())
+
+    lexer = OurLanguageLexer(input_stream)
     stream = CommonTokenStream(lexer)
-    parser = ExprParser(stream)
+    parser = OurLanguageParser(stream)
     tree = parser.prog()
 
-    res = MyExprVisitor().visitProg(tree)  # Evaluate the expression
-
-    print(input, "=", res)
+    visitor.visitProg(tree)  # Evaluate the expression
 
 
 if __name__ == "__main__":

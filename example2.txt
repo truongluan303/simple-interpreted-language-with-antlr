@@ -1,0 +1,4 @@
+let x = 3;
+LET y = 2;
+print(y);
+print(x);

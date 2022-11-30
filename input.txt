@@ -1,0 +1,16 @@
+push('hello world bottom');
+push('hello world middle');
+push('hello world top');
+
+let a  = pop();
+let b  = pop();
+let c  = pop();
+let d = pop();
+
+print(a);
+print(b);
+print(c);
+PRINT(d);
+
+compare(a, 'hello world top');
+compare(a, 'hello world to');
