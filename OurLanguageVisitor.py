@@ -1,7 +1,10 @@
 # Generated from .\OurLanguage.g4 by ANTLR 4.9.2
 from antlr4 import *
 
-from .OurLanguageParser import OurLanguageParser
+if __name__ is not None and "." in __name__:
+    from .OurLanguageParser import OurLanguageParser
+else:
+    from OurLanguageParser import OurLanguageParser
 
 # This class defines a complete generic visitor for a parse tree produced by OurLanguageParser.
 
