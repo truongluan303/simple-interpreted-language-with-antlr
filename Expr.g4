@@ -1,4 +1,4 @@
-grammar OurLanguage;
+grammar Expr;
 
 prog: statement+;
 

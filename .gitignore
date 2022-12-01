@@ -139,19 +139,6 @@ dmypy.json
 cython_debug/
 
 
-# Antlr specific
-
-/TJS*.java
-/TJS*.js
-/TJS*.ts
-/TJS*.cs
-/TJS*.go
-*.tokens
-*.interp
-*.class
-.antlr
-
-
 # general types of files that should not be committed
 *.zip
 *.exe

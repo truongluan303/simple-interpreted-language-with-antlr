@@ -1,26 +1,44 @@
+import signal
 import sys
 
 from antlr4 import *
 
-from OurLanguageLexer import OurLanguageLexer
-from OurLanguageParser import OurLanguageParser
-from OurLanguageVisitor import OurLanguageVisitor
+from ExprLexer import ExprLexer
+from ExprParser import ExprParser
+from ExprVisitor import ExprVisitor
+
+
+def interrupt_handler(*_) -> bool:
+    response = input("\nYou sure you want to exit? [Y/n]: ").strip()
+    if not response or response.upper() == "Y":
+        sys.exit(0)
+    elif response.upper() != "N":
+        print("Unknown answer!")
+    return False
+
+
+def evaluate(visitor, stream) -> None:
+    lexer = ExprLexer(stream)
+    stream = CommonTokenStream(lexer)
+    parser = ExprParser(stream)
+    tree = parser.prog()
+    visitor.visitProg(tree)
 
 
 def main():
-    visitor = OurLanguageVisitor()
+    visitor = ExprVisitor()
 
-    if len(sys.argv) > 1:
-        input_stream = FileStream(sys.argv[1])
+    use_file_stream = len(sys.argv) > 1
+
+    if use_file_stream:
+        evaluate(visitor, FileStream(sys.argv[1]))
     else:
-        input_stream = InputStream(sys.stdin.readline())
-
-    lexer = OurLanguageLexer(input_stream)
-    stream = CommonTokenStream(lexer)
-    parser = OurLanguageParser(stream)
-    tree = parser.prog()
-
-    visitor.visitProg(tree)  # Evaluate the expression
+        signal.signal(signal.SIGINT, interrupt_handler)  # register interrupt handler
+        while True:
+            input = sys.stdin.readline().strip()
+            if input == "exit()":
+                return
+            evaluate(visitor, InputStream(input))
 
 
 if __name__ == "__main__":
