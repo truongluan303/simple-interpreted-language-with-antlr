@@ -142,3 +142,7 @@ cython_debug/
 # general types of files that should not be committed
 *.zip
 *.exe
+
+
+# antlr specific
+.antlr
