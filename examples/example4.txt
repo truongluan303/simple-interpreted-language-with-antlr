@@ -1,3 +1,2 @@
-LET a = 15 / 4;			print(a);
-LET b = 20 / 4;			print(b);
-let c = (a+b) / 0;		print(c);
+let a = 15 / 4;			print('value of a is ');        print(a);
+LET b = 20 / 4;			print('value of b is ');        print(b);

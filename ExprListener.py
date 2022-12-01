@@ -41,12 +41,12 @@ class ExprListener(ParseTreeListener):
     def exitPush(self, ctx: ExprParser.PushContext):
         pass
 
-    # Enter a parse tree produced by ExprParser#compare.
-    def enterCompare(self, ctx: ExprParser.CompareContext):
+    # Enter a parse tree produced by ExprParser#equal.
+    def enterEqual(self, ctx: ExprParser.EqualContext):
         pass
 
-    # Exit a parse tree produced by ExprParser#compare.
-    def exitCompare(self, ctx: ExprParser.CompareContext):
+    # Exit a parse tree produced by ExprParser#equal.
+    def exitEqual(self, ctx: ExprParser.EqualContext):
         pass
 
     # Enter a parse tree produced by ExprParser#blankStatement.
@@ -73,6 +73,14 @@ class ExprListener(ParseTreeListener):
     def exitLetPopFunc(self, ctx: ExprParser.LetPopFuncContext):
         pass
 
+    # Enter a parse tree produced by ExprParser#letEqualStatement.
+    def enterLetEqualStatement(self, ctx: ExprParser.LetEqualStatementContext):
+        pass
+
+    # Exit a parse tree produced by ExprParser#letEqualStatement.
+    def exitLetEqualStatement(self, ctx: ExprParser.LetEqualStatementContext):
+        pass
+
     # Enter a parse tree produced by ExprParser#printFunc.
     def enterPrintFunc(self, ctx: ExprParser.PrintFuncContext):
         pass
@@ -89,12 +97,12 @@ class ExprListener(ParseTreeListener):
     def exitPushFunc(self, ctx: ExprParser.PushFuncContext):
         pass
 
-    # Enter a parse tree produced by ExprParser#compareFunc.
-    def enterCompareFunc(self, ctx: ExprParser.CompareFuncContext):
+    # Enter a parse tree produced by ExprParser#equalFunc.
+    def enterEqualFunc(self, ctx: ExprParser.EqualFuncContext):
         pass
 
-    # Exit a parse tree produced by ExprParser#compareFunc.
-    def exitCompareFunc(self, ctx: ExprParser.CompareFuncContext):
+    # Exit a parse tree produced by ExprParser#equalFunc.
+    def exitEqualFunc(self, ctx: ExprParser.EqualFuncContext):
         pass
 
     # Enter a parse tree produced by ExprParser#string.

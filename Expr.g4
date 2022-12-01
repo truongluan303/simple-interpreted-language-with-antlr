@@ -2,40 +2,46 @@ grammar Expr;
 
 prog: statement+;
 
-statement:letStatement ';'		 								#let
-		| printStatement ';'									#print
-		| pushStatement ';'  									#push
-		| compareStatement ';'									#compare
-		| NEWLINE 												#blankStatement
-		;
+statement:
+	letStatement ';'		 						#let
+	| printStatement ';'							#print
+	| pushStatement ';'  							#push
+	| equalStatement ';'							#equal
+	| NEWLINE 										#blankStatement
+	;
 
+letStatement:
+	LET VAR '=' expr 								#letExprFunc
+	| LET VAR '=' POP '(' ')' 						#letPopFunc
+	| LET VAR '=' equalStatement					#letEqualStatement
+	;
 
-letStatement: LET VAR '=' expr 									#letExprFunc
-			| LET VAR '=' POP '(' ')' 							#letPopFunc
-			;
+printStatement:
+	PRINT '(' expr ')' 								#printFunc
+	;
 
-printStatement: PRINT '('expr')' 								#printFunc
-			;
+pushStatement:
+	PUSH '(' expr ')' 								#pushFunc
+	;
 
-pushStatement: PUSH '(' expr ')' 								#pushFunc
-			;
+equalStatement:
+	EQUAL '(' expr ',' expr ')' 					#equalFunc
+	;
 
-compareStatement: COMPARE '(' expr ',' expr ')' 				#compareFunc
-				;
-
-expr: expr op=('*'|'/') expr   									#muldivExpr
-    | expr op=('+'|'-') expr   									#addsubExpr
-    | INT                               						#int
-	| VAR														#var
-	| STRING													#string
-    | '(' expr ')'                      						#parensExpr
+expr:
+	expr op=('*'|'/') expr   						#muldivExpr
+    | expr op=('+'|'-') expr   						#addsubExpr
+    | INT                               			#int
+	| VAR											#var
+	| STRING										#string
+    | '(' expr ')'                      			#parensExpr
     ;
 
 LET : ('LET'|'let') ;
 PRINT : ('PRINT'|'print') ;
 PUSH: ('PUSH'|'push');
 POP: ('POP'|'pop');
-COMPARE: ('COMPARE'|'compare');
+EQUAL: ('EQUAL'|'equal');
 
 ADD: '+';
 SUB: '-';

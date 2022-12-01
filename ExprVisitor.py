@@ -1,4 +1,4 @@
-# Generated from .\Expr.g4 by ANTLR 4.9.2
+# Generated from Expr.g4 by ANTLR 4.11.1
 from antlr4 import *
 
 if __name__ is not None and "." in __name__:
@@ -10,9 +10,9 @@ else:
 
 
 class ExprVisitor(ParseTreeVisitor):
-    def __init__(self):
-        self.varMap = {}  # Map for setting and getting variables
-        self.varStack = []  # Stack for keeping variables
+    def __init__(self) -> None:
+        self.varMap = {}
+        self.varStack = []
 
     # Visit a parse tree produced by ExprParser#prog.
     def visitProg(self, ctx: ExprParser.ProgContext):
@@ -30,8 +30,8 @@ class ExprVisitor(ParseTreeVisitor):
     def visitPush(self, ctx: ExprParser.PushContext):
         return self.visitChildren(ctx)
 
-    # Visit a parse tree produced by ExprParser#compare.
-    def visitCompare(self, ctx: ExprParser.CompareContext):
+    # Visit a parse tree produced by ExprParser#equal.
+    def visitEqual(self, ctx: ExprParser.EqualContext):
         return self.visitChildren(ctx)
 
     # Visit a parse tree produced by ExprParser#blankStatement.
@@ -47,15 +47,21 @@ class ExprVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by ExprParser#letPopFunc.
     def visitLetPopFunc(self, ctx: ExprParser.LetPopFuncContext):
-        varName = ctx.VAR().getText()
         try:
-            value = self.varStack[-1]
-            self.varMap[varName] = value
-            self.varStack.pop()
+            value = self.varStack.pop()
+            self.varMap[ctx.VAR().getText()] = value
             return value
         except IndexError:
             print("The stack is empty !!")
             return
+
+    # Visit a parse tree produced by ExprParser#letEqualStatement.
+    def visitLetEqualStatement(self, ctx: ExprParser.LetEqualStatementContext):
+        varName = ctx.VAR().getText()
+        val = eval(
+            ctx.equalStatement().getText().replace("equal", "").replace(",", "==")
+        )
+        self.varMap[varName] = val
 
     # Visit a parse tree produced by ExprParser#printFunc.
     def visitPrintFunc(self, ctx: ExprParser.PrintFuncContext):
@@ -68,11 +74,9 @@ class ExprVisitor(ParseTreeVisitor):
         value = self.visit(ctx.expr())
         self.varStack.append(value)
 
-    # Visit a parse tree produced by ExprParser#compareFunc.
-    def visitCompareFunc(self, ctx: ExprParser.CompareFuncContext):
-        value1 = self.visit(ctx.expr(0))
-        value2 = self.visit(ctx.expr(1))
-        print(value1 == value2)
+    # Visit a parse tree produced by ExprParser#equalFunc.
+    def visitEqualFunc(self, ctx: ExprParser.EqualFuncContext):
+        return self.visit(ctx.expr(0)) == self.visit(ctx.expr(1))
 
     # Visit a parse tree produced by ExprParser#string.
     def visitString(self, ctx: ExprParser.StringContext):
@@ -86,7 +90,6 @@ class ExprVisitor(ParseTreeVisitor):
             return left * right
         # Exception handling when dividing by 0
         try:
-            # All divisions will be integer
             return int(left / right)
         except ZeroDivisionError:
             return "The denominator cannot be zero !!"
